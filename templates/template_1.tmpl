@@ -1,0 +1,5 @@
+{{ range $key, $value := . }}
+   {{ $key }}: 
+       NAME         {{ $value.Name }} 
+       DESCRIPTION  {{$value.Definition }}
+{{ end }}
