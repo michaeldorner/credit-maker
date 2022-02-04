@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"os"
 	"text/template"
 )
@@ -13,10 +14,13 @@ type Role struct {
 }
 
 func main() {
-	jsonFile, _ := os.Open("./credit_roles.json")
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	jsonFile, err := ioutil.ReadFile("./credit_roles.json")
+	if err != nil {
+		log.Fatal("Unable to open credit roles file: ", err)
+	}
+
 	var roles map[string]Role
-	json.Unmarshal(byteValue, &roles)
+	json.Unmarshal(jsonFile, &roles)
 
 	tmpl, _ := template.ParseFiles("templates/template_1.tmpl")
 	tmpl.Execute(os.Stdout, roles)
